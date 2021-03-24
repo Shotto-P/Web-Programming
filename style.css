@@ -107,7 +107,7 @@
 
 .avatar {
     border: 6px solid #ffa366;
-    border-radius: 20%;
+    border-radius: 20px;
 }
 
 .profileDiv {
@@ -117,4 +117,18 @@
 .IntroDiv {
     float: right;
     width: 60%;
+}
+
+.createAccForm {
+    position: relative;
+    width: 50%;
+    left: 33%;
+}
+
+.formLabel {
+    width: 200px;
+}
+
+.createBtn {
+    width: 65%;
 }
