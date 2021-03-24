@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+}
+
+.barItem {
+    display: inline-block;
+    padding: 15px;
+}
+
+.brand {
+    margin: 0;
+}
+
+.iconDiv {
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.topBar {
+    border-bottom: 4px solid #bfbfbf;
+}
+
+.image {
+    border: 1px solid #ccc;
+    width: 222px;
+}
+
+.image:hover {
+    border: 1px solid #777;
+}
+
+.description {
+    padding: 5px;
+    text-align: center;
+}
+
+.hostName {
+    padding-top: 100px;
+}
+
+.text-muted:hover {
+    font-style: italic;
+    text-decoration: none;
+}
+
+.buttons {
+    padding-top: 100px;
+}
+
+.UserDBBar{
+    display: inline-block;
+}
+
+.btnNewUser {
+    float: right;
+}
+
+.comments {
+    width: 120px;
+    height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
