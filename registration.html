@@ -35,6 +35,7 @@
             </div>
         </div> 
         <div class="mainDiv">
+          <form>
                  <br>
                  <br>
                <h2><p align="center">CREATE ACCOUNT</p></h2>
@@ -50,11 +51,11 @@
             <div style="display: flex;width:100%;">
               <div style="width:50%;">
               <h4>First name</h4>
-              <input style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your First name"id="FirstName"required>
+              <input type="text" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your First name"id="FirstName"required>
             </div>
             <div style="width:50%;">
                 <h4>Last name</h4>
-                <input style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your Last name"id="LastName"required>
+                <input type="text" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your Last name"id="LastName"required>
               </div>
             </div>
         </div>
@@ -64,11 +65,11 @@
         <div style="display: flex;width:100%;">
           <div style="width:50%;">
           <h4>Email address</h4>
-          <input style="width:90%;height: 50px;border-radius: 5px;" placeholder="Email address"id="EmailAddress"required>
+          <input  type="email" style="width:90%;height: 50px;border-radius: 5px;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email address"id="EmailAddress"required>
         </div>
         <div style="width:50%;">
             <h4>Mobile</h4>
-            <input style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your mobile number"id="MobileNumber"required>
+            <input type="number" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your mobile number"id="MobileNumber"required>
           </div>
         </div>
     </div>   
@@ -78,11 +79,11 @@
         <div style="display: flex;width:100%;">
           <div style="width:50%;">
           <h4>Password</h4>
-          <input style="width:90%;height: 50px;border-radius: 5px;" placeholder="Password"id="Password"required>
+          <input type="password"style="width:90%;height: 50px;border-radius: 5px;" placeholder="Password"id="Password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*?[!@#$%^&*+`~'=?\|\]\[\(\)\->/]).{6,12}"required>
         </div>
         <div style="width:50%;">
             <h4>Confirm Password</h4>
-            <input style="width:90%;height: 50px;border-radius: 5px;" placeholder="Re-type your password"id="RePassword"required>
+            <input type="password" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Re-type your password"id="RePassword"required>
           </div>
         </div>
     </div>   
@@ -92,11 +93,11 @@
         <div style="display: flex;width:100%;">
           <div style="width:50%;">
           <h4>Address</h4>
-          <input style="width:90%;height: 50px;border-radius: 5px;" placeholder="Address"id="Address"required>
+          <input type="text" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Address"id="Address"required>
         </div>
         <div style="width:50%;">
             <h4>Country</h4>
-            <input style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your city"id="City"required>
+            <input type="text" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your city"id="City"required>
           </div>
         </div>
     </div>  
@@ -105,14 +106,15 @@
         <div style="display: flex;width:100%;">
           <div style="width:50%;">
           <h4>ABN</h4>
-          <input style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your ABN number"id="ABN"required>
+          <input type="number" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your ABN number"id="ABN"required>
           </div>
         </div>   
     </div>   
         <div style="width:76%; margin-top: 50px;margin-left: 10%;">
          <button style="width:20%; height:50px;border-radius: 10px;">Cancel</button>
-         <button style="width:20%; height:50px; background-color: rgb(60, 133, 228);float: right;border-radius: 10px;"onclick=submit1()>Submit</button>
+         <input type="submit" style="width:20%; height:50px; background-color: rgb(60, 133, 228);float: right;border-radius: 10px;" value="submit"></input>
         </div>
+      </form>
       </div>
     </body>
 
@@ -129,60 +131,60 @@
                         FFF.style.display = 'none'
 					}
 		} 
-        function submit1 (){
-        	  var AAA = document.getElementById("AAA")
-	          var ABN = document.getElementById("ABN");
-	          if(AAA.value == '1'){
-	          	if(ABN.value == null || ABN.value == ""){
-	          		alert("please enter your ABN")
-	          		return
-	          	}
-	          	checkoutAll();
-	          }else{
-	          	checkoutAll();
-	          }
-        }
-        function checkoutAll (){
-           var firstName = document.getElementById("FirstName");
-           var LastName = document.getElementById("LastName");
-           var Emailaddress = document.getElementById("EmailAddress");
-           var Mobilenumber = document.getElementById("MobileNumber");
-           var Password = document.getElementById("Password");
-           var RePassword = document.getElementById("RePassword");
-           var Address = document.getElementById("Address");
-           var City = document.getElementById("City");
-         if ( firstName.value == null || firstName.value == ""){
-           alert("please enter your First Name")
-           return
-         }else if ( LastName.value == null || LastName.value == ""){
-             alert("please enter your Last Name")
-           return
-         }else if ( Emailaddress.value == null || Emailaddress.value == ""){
-             alert("please enter your Email address")
-           return
-         }else if ( Mobilenumber.value == null || Mobilenumber.value == ""){
-             alert("please enter your Mobile number")
-           return
-         }else if ( Password.value == null || Password.value == ""){
-             alert("please enter your Password")
-           return
-         }else if ( RePassword.value == null || RePassword.value == ""){
-             alert("please enter your Password again")
-           return
-         }else if (Password.value != RePassword.value){
-          alert("Password difference")
-          return
-         }
-         else if ( Address.value == null || Address.value == ""){
-             alert("please enter your Address")
-           return
-         }else if ( City.value == null || City.value == ""){
-             alert("please enter your City")
-           return
-         }else{
-           alert("successfull submit") 
-         }
-        }
+        // function submit1 (){
+        // 	  var AAA = document.getElementById("AAA")
+	      //     var ABN = document.getElementById("ABN");
+	      //     if(AAA.value == '1'){
+	      //     	if(ABN.value == null || ABN.value == ""){
+	      //     		alert("please enter your ABN")
+	      //     		return
+	      //     	}
+	      //     	checkoutAll();
+	      //     }else{
+	      //     	checkoutAll();
+	      //     }
+        // }
+        // function checkoutAll (){
+        //    var firstName = document.getElementById("FirstName");
+        //    var LastName = document.getElementById("LastName");
+        //    var Emailaddress = document.getElementById("EmailAddress");
+        //    var Mobilenumber = document.getElementById("MobileNumber");
+        //    var Password = document.getElementById("Password");
+        //    var RePassword = document.getElementById("RePassword");
+        //    var Address = document.getElementById("Address");
+        //    var City = document.getElementById("City");
+        //  if ( firstName.value == null || firstName.value == ""){
+        //    alert("please enter your First Name")
+        //    return
+        //  }else if ( LastName.value == null || LastName.value == ""){
+        //      alert("please enter your Last Name")
+        //    return
+        //  }else if ( Emailaddress.value == null || Emailaddress.value == ""){
+        //      alert("please enter your Email address")
+        //    return
+        //  }else if ( Mobilenumber.value == null || Mobilenumber.value == ""){
+        //      alert("please enter your Mobile number")
+        //    return
+        //  }else if ( Password.value == null || Password.value == ""){
+        //      alert("please enter your Password")
+        //    return
+        //  }else if ( RePassword.value == null || RePassword.value == ""){
+        //      alert("please enter your Password again")
+        //    return
+        //  }else if (Password.value != RePassword.value){
+        //   alert("Password difference")
+        //   return
+        //  }
+        //  else if ( Address.value == null || Address.value == ""){
+        //      alert("please enter your Address")
+        //    return
+        //  }else if ( City.value == null || City.value == ""){
+        //      alert("please enter your City")
+        //    return
+        //  }else{
+        //    alert("successfull submit") 
+        //  }
+        // }
 	</script>
 	<style>
 		.sss{
