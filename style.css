@@ -105,6 +105,11 @@
     margin-left: 5px;
 }
 
+.bookBtn {
+    width: 85%;
+    margin: 5px 19px;
+}
+
 .avatar {
     border: 6px solid #ffa366;
     border-radius: 20px;
@@ -131,4 +136,34 @@
 
 .createBtn {
     width: 65%;
+}
+
+.imageContainer {
+    max-height: 143px;
+}
+
+.overlay {
+    position: relative;
+    top: 30px;
+    left: 10px;
+    height: 100px;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    z-index: 10;
+    line-height: 2px;
+}
+
+.AccoImages {
+    position: relative;
+    top: -100px;
+    z-index: 1;
+}
+
+.imageContainer:hover .overlay {
+    opacity: 1;
+}
+
+.imageContainer:hover img{
+    opacity: 0.2;
 }
