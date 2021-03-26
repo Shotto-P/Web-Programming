@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html>
     <head>
+      <meta charset="UTF-8">
+        <meta name="viewpoint" content="width=device-width, initial-scale=1">
+        <title></title>
+        <link rel="stylesheet" href="bootstrap.min.css">
+
    <style>
        body {
   font-family: Arial, Helvetica, sans-serif;
 }
-
+*{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 .navbar {
   width: 98%;    
   overflow: hidden;
@@ -21,7 +30,7 @@
   text-decoration: none;
 }
     
-       .dropdown {
+.dropdown {
   float: left;
   overflow: hidden;
 }
@@ -104,7 +113,7 @@
    
 <body>
     
-
+<div class="container">
     
   <div class="navbar">
      <a href="#unibnb">UniBnb</a>
@@ -129,20 +138,29 @@
 
   <input type="date" class="date" id="Check out date" min="" name="Check out date" placeholder="Check out date" onchange="dateComp()" required >
        
-  <input type="number" class="date" id="Guest" name="Guest" placeholder="Guest" required><br><br>
+  <input type="number" class="date" id="Guest" name="Guest" placeholder="Guest" min="1" required><br><br>
        
    <input type="submit" class="center" value="Search"> <br>
   
  </form> <br><br><br><br>
     
+<div class="row">
+   <div class="col-md-4">
+    <img src="entire house.jpg" alt="Entire House" class="img-rounded" width="360px" height="360px">
+   </div>
+  
+   <div class="col-md-4">
+    <img src="private room.jpg" alt="Private Room" class="img-rounded" width="360px" height="360px">
+   </div>
 
-   <img src="entire house.jpg" alt="Entire House" width="355" height="355">
-   <img src="private room.jpg" alt="Private Room" width="355" height="355">
-   <img src="cottage.jpg" alt="Cottage" width="355" height="355">  
-
+   <div class="col-md-4">
+    <img src="cottage.jpg" alt="Cottage" class="img-rounded" width="360px" height="360px">
+   </div>
+     
+  </div>
 
     
-
+</div>
     
 </body>
 </html>
