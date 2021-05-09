@@ -167,3 +167,30 @@
 .imageContainer:hover img{
     opacity: 0.2;
 }
+
+.center {
+    text-align:center;
+    height: 45px;
+    width: 95%;
+    border:2px groove;
+    border-radius: 5px;
+    margin: 20px 30px 5px;
+   }
+
+
+.date {
+    text-align:center;
+    height: 45px;
+    width: 32%;
+    border:2px groove;
+    border-radius: 5px;
+    margin: 10px 30px;
+   }
+.dateGuest {
+    text-align:center;
+    height: 45px;
+    width: 20%;
+    border:2px groove;
+    border-radius: 5px;
+    margin: 10px 30px;
+}

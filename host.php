@@ -62,7 +62,7 @@ their propertys-->
                     <br>
                     <div>
                         <h3 class="AccDBBar">Manage Your Accommodations</h3>
-                        <a href="createAcc.html" class="AccDBBar btn btn-outline-info btnNewUser">New Accommodation</a>
+                        <a href="createAccomo.php" class="AccDBBar btn btn-outline-info btnNewUser">New Accommodation</a>
                     </div>
                     <div class="responsive">
                         <div class="gallery">

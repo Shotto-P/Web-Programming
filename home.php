@@ -1,5 +1,11 @@
 <?php
-  //import the sql file and make 
+  $servername = "localhost";
+  $username = "root";
+  $password = "pangxiaotao";
+
+  $connection = new mysqli($servername, $username, $password);
+  
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,44 +19,16 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/6c3fa9686c.js" crossorigin="anonymous"></script>
-   <style>
-       body {
+    <style>
+        body {
               font-family: Arial, Helvetica, sans-serif;
             }
-*{
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.center {
-        text-align:center;
-        height: 45px;
-        width: 95%;
-        border:2px groove;
-        border-radius: 5px;
-        margin: 20px 30px 5px;
-       }
-    
-
- .date {
-        text-align:center;
-        height: 45px;
-        width: 32%;
-        border:2px groove;
-        border-radius: 5px;
-        margin: 10px 30px;
-       }
-  .dateGuest {
-        text-align:center;
-        height: 45px;
-        width: 20%;
-        border:2px groove;
-        border-radius: 5px;
-        margin: 10px 30px;
-  }    
-       
-</style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+          } 
+    </style>
     <script>
       /*
       **use this function to check if the checkout date is after the checkin date 
@@ -85,38 +63,36 @@
     </div>
   </div>
  
-   <form action="searchResult.php" method="POST"><br><br><br><br>
+  <form action="searchResult.php" method="POST">
+    <br><br><br><br>
     <span style="display: none; color:darkred" id="error">Check out date must be after check in date</span>
-   <input type="text"  class="center" id="City" name="City" placeholder="Enter the destination city" required><br><br>
+    <input type="text"  class="center" id="City" name="City" placeholder="Enter the destination city" required><br><br>
 
-  <!--the date picker is not included in Safari, Plz use Chrome-->    
-  <input type="date" class="date" id="Check in date" name="Check in date" placeholder="Check in date" onchange="dateComp()" required>
+    <!--the date picker is not included in Safari, Plz use Chrome-->    
+    <input type="date" class="date" id="Check in date" name="Check in date" placeholder="Check in date" onchange="dateComp()" required>
 
-  <input type="date" class="date" id="Check out date"  name="Check out date" placeholder="Check out date" onchange="dateComp()" required >
+    <input type="date" class="date" id="Check out date"  name="Check out date" placeholder="Check out date" onchange="dateComp()" required >
        
-  <input type="number" class="dateGuest" id="NumGuest" name="NumGuest" placeholder="Guest Number" min="1" required><br><br>
+    <input type="number" class="dateGuest" id="NumGuest" name="NumGuest" placeholder="Guest Number" min="1" required><br><br>
        
-   <input type="submit" class="center" value="Search"> <br>
-  
- </form> <br><br><br><br>
+    <input type="submit" class="center" value="Search"> <br>
+  </form>
+  <br><br><br><br>
     
-<div class="row">
-   <div class="col-md-4">
-    <img src="img/entire house.jpg" alt="Entire House" class="img-rounded" width="360px" height="360px">
-   </div>
+  <div class="row"> 
+    <div class="col-md-4">
+      <img src="img/entire house.jpg" alt="Entire House" class="img-rounded" width="360px" height="360px">
+    </div>
   
-   <div class="col-md-4">
-    <img src="img/private room.jpg" alt="Private Room" class="img-rounded" width="360px" height="360px">
-   </div>
+    <div class="col-md-4">
+      <img src="img/private room.jpg" alt="Private Room" class="img-rounded" width="360px" height="360px">
+    </div>
 
-   <div class="col-md-4">
-    <img src="img/cottage.jpg" alt="Cottage" class="img-rounded" width="360px" height="360px">
-   </div>
+    <div class="col-md-4">
+      <img src="img/cottage.jpg" alt="Cottage" class="img-rounded" width="360px" height="360px">
+    </div>
      
-  </div>
-
-    
-</div>
+  </div>    
     
 </body>
 </html>

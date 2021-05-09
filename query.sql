@@ -31,6 +31,10 @@ CREATE TABLE Accommodations (
     NumOfRoom INT NOT NULL,
     NumOfBath INT NOT NULL,
     NumOfCarPark INT NOT NULL,
+    MaxGuestNum INT NOT NULL,
+    SmokeAllowed BOOLEAN NOT NULL,
+    PetAllowed BOOLEAN NOT NULL,
+    InternetConnected BOOLEAN NOT NULL,
     Rate FLOAT,
     Image LONGBLOB NOT NULL
 );
