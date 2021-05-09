@@ -1,3 +1,6 @@
+<?php
+  //import the sql file and make 
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -22,21 +25,30 @@
 
 .center {
         text-align:center;
-           height: 20px;
-           width: 98%;
+        height: 45px;
+        width: 95%;
         border:2px groove;
         border-radius: 5px;
+        margin: 20px 30px 5px;
        }
     
 
  .date {
-        text-align:date;
-           height: 20px;
-           width: 32%;
+        text-align:center;
+        height: 45px;
+        width: 32%;
         border:2px groove;
         border-radius: 5px;
+        margin: 10px 30px;
        }
-      
+  .dateGuest {
+        text-align:center;
+        height: 45px;
+        width: 20%;
+        border:2px groove;
+        border-radius: 5px;
+        margin: 10px 30px;
+  }    
        
 </style>
     <script>
@@ -68,21 +80,21 @@
         <i class="fas fa-user-alt dropdown-toggle" data-toggle="dropdown" style="font-size: 24px;"></i>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="#">Login</a>
-            <a class="dropdown-item" href="registration.html">Create Account</a>
+            <a class="dropdown-item" href="registration.php">Create Account</a>
         </div>
     </div>
   </div>
  
-   <form action="searchResult.html" method="POST"><br><br><br><br>
+   <form action="searchResult.php" method="POST"><br><br><br><br>
     <span style="display: none; color:darkred" id="error">Check out date must be after check in date</span>
-   <input type="text"  class="center" id="Destination" name="Destination" placeholder="Destination" required><br><br>
-       
+   <input type="text"  class="center" id="City" name="City" placeholder="Enter the destination city" required><br><br>
+
   <!--the date picker is not included in Safari, Plz use Chrome-->    
   <input type="date" class="date" id="Check in date" name="Check in date" placeholder="Check in date" onchange="dateComp()" required>
 
   <input type="date" class="date" id="Check out date"  name="Check out date" placeholder="Check out date" onchange="dateComp()" required >
        
-  <input type="number" class="date" id="Guest" name="Guest" placeholder="Guest" min="1" required><br><br>
+  <input type="number" class="dateGuest" id="NumGuest" name="NumGuest" placeholder="Guest Number" min="1" required><br><br>
        
    <input type="submit" class="center" value="Search"> <br>
   
