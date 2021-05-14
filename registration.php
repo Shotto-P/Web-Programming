@@ -1,3 +1,42 @@
+<?php
+  $servername = "localhost";
+  $username = "root";
+  $password = "pangxiaotao";
+
+  $connection = new mysqli($servername, $username, $password);
+  if(!$connection){
+    die("can't connect".mysqli_error());
+}
+
+  $username = $_POST["username"];
+  $password = $_POST["password"];
+  $encodePW = md5($password);
+  $email = $_POST["email"];
+  $mobile =$_POST["mobile"];
+  $userid = random_int(1000000,9999999);
+
+  $_SESSION['userid'] = "$userid"
+
+  $query = "INSERT INTO users (userid, username, useremail, usermobile) VALUES ('userid', 'username', 'encodePW', 'email', 'mobile');";
+  $result = $connection-> query($query);
+
+  if ($result){
+    $creatAccounts = "INSERT INTO 'account (`username`, `userid`, `password`, `email`, `mobile`) VALUES ('$username', '$userid', '$password', '$email', '$mobile');";
+    $result = mysqli_multi_query($connection,$creatAccounts);
+
+    if($result){
+      header ("location: ..\\afterreg.php")
+    }
+   
+    
+
+
+  }else{
+    echo ("registration failed");
+  }
+  $mysqli_free_result($result);
+  $connection -> close();
+?>
 <!DOCTYPE html>
 <html>
     <!-- Headings -->
@@ -16,8 +55,7 @@
     <style>
       .mainDiv {
         background-image: url("img/regi\ 2.jpeg");
-        background-size: 100%;
-        
+        background-size: 100%;  
         background-repeat: no-repeat;
       }
     </style>
@@ -29,15 +67,15 @@
         </div> 
         <div class="mainDiv">
           <form>
-                 <br>
-                 <br>
+              <br>
+              <br>
                <h2><p align="center">CREATE ACCOUNT</p></h2>
                <br>
                <h4><p style="margin-left:10%">Are you registering as a client or host?</p></h4>
-               <select style="width: 76%;height:50Px;margin-left: 10%;border-radius: 5px;" id="AAA" onchange="gradeChange()">
-				<option value="1" style="font-size: 16px;font-weight: 200;background-color: dimgrey;height: 50px;">Host</option>
-				<option value="2" style="font-size: 16px;font-weight: 200;background-color: dimgrey;height: 50px;">Client</option>
-			</select>  
+          <select style="width: 76%;height:50Px;margin-left: 10%;border-radius: 5px;" id="AAA" onchange="gradeChange()">
+				    <option value="1" style="font-size: 16px;font-weight: 200;background-color: dimgrey;height: 50px;">Host</option>
+				    <option value="2" style="font-size: 16px;font-weight: 200;background-color: dimgrey;height: 50px;">Client</option>
+			   </select>  
             <br>
             <br>
         <div style="width:80%; margin-left:10%;">

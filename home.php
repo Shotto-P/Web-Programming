@@ -4,9 +4,13 @@
   $password = "pangxiaotao";
 
   $connection = new mysqli($servername, $username, $password);
-  
+  if (!$connection) {
+      die("can't connect".mysqli_error());
+  }
 
 ?>
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -57,7 +61,7 @@
     <div class="barItem iconDiv">
         <i class="fas fa-user-alt dropdown-toggle" data-toggle="dropdown" style="font-size: 24px;"></i>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Login</a>
+            <a class="dropdown-item" href="login.php">Login</a>
             <a class="dropdown-item" href="registration.php">Create Account</a>
         </div>
     </div>
