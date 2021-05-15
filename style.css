@@ -44,10 +44,6 @@
     text-decoration: none;
 }
 
-.buttons {
-    padding-top: 100px;
-}
-
 .UserDBBar{
     display: inline-block;
 }
@@ -101,7 +97,7 @@
 }
 
 .editBtn, .removeBtn {
-    width: 46%;
+    width: 85%;
     margin-left: 5px;
 }
 
@@ -193,4 +189,245 @@
     border:2px groove;
     border-radius: 5px;
     margin: 10px 30px;
+}
+
+.dateErr {
+    text-align:center;
+    height: 45px;
+    width: 32%;
+    margin: 10px 30px;
+}
+
+.guestErr {
+    text-align:center;
+    height: 45px;
+    width: 20%;
+    margin: 10px 30px;
+}
+
+.loginForm {
+    position: relative;
+    left: 30%;
+    width: fit-content;
+}
+
+.loginBtn {
+    width: 100%;
+}
+
+.tableDiv {
+    display: inline-block;
+    position: relative;
+    width: 50%;
+    margin-right: 20px;
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.formDiv {
+    display: inline-block;
+    position: relative;
+    width: 50%;
+    margin-left: 20px;
+}
+
+.reserveformLabel{
+    font-weight: bold;
+}
+
+.cancelBtn {
+    width: 80px;
+}
+
+.confirmBtn {
+    width: 80px;
+    position: relative;
+    left: 50%;
+}
+
+.reserverformInput {
+    width: 80%;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #bfbfbf;
+    color: #777;
+}
+
+.requestSentBtn { 
+    width: 160px;
+}
+
+.textRequestSent {
+    position: relative;
+    left: 35%;
+    width: 60%;
+}
+.error {
+    color: red;
+}
+
+.profileEditForm{
+    display: flex;
+}
+
+.changAvatarBtn {
+    width: 160px;
+}
+
+.popup {
+    position: absolute;
+    background-color: white;
+    bottom: 0;
+    left: 20%;
+    border-radius: 10px;
+    border: 6px solid #ffa366;
+    width: 400px;
+    height: 200px;
+    display:none;
+}
+
+.popupLabel {
+    font-size: 30px;
+    font-weight: bold;
+    font-family: fantasy;
+    margin-top: 15px;
+}
+
+.popupInput {
+    margin: 10px 10px 10px 10px;
+}
+
+.editForm {
+    width: 80%;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #bfbfbf;
+    color: #777;
+}
+
+.editFormItem {
+    width: 50%;
+}
+
+.popupReason {
+    position: absolute;
+    background-color: white;
+    top: 50%;
+    left: 30%;
+    border-radius: 10px;
+    border: 6px solid #ffa366;
+    width: 400px;
+    height: 230px;
+    display: block;
+    display:none;
+}
+
+.closeBtn {
+    width: 100%;
+}
+
+.commentInput {
+    width:90%;
+    height: 60%;
+    border: 1px solid #777;
+    border-radius: 5px;
+}
+
+.reasonContent{
+    width:90%;
+    height: 55%;
+    margin-left: 15px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.popupPayment {
+    position: absolute;
+    background-color: white;
+    top: 20%;
+    left: 30%;
+    border-radius: 10px;
+    border: 6px solid #ffa366;
+    width: 400px;
+    height: 650px;
+    display:none;
+}
+
+.visa {
+    display: none;
+}
+
+.popupReply {
+    position: absolute;
+    background-color: white;
+    top: 50%;
+    left: 30%;
+    border-radius: 10px;
+    border: 6px solid #ffa366;
+    width: 400px;
+    height: 200px;
+    display: none;
+}
+
+.accomBtn {
+    width: 50%;
+}
+
+.sendRejectBtn {
+    width:40%;
+    margin: 5px;
+    margin-left: 15px;
+}
+
+.closeRejectBtn {
+    width: 50%;
+    margin: 5px;
+}
+
+.viewCancelReasonBtn {
+    position: relative;
+    top: 10%;
+}
+
+.PayBtn {
+    width:40%;
+    margin: 5px;
+    margin-left: 15px;
+}
+
+.closePayBtn {
+    width: 50%;
+    margin: 5px;
+}
+
+.ReplyBtn{
+    width:40%;
+    margin: 5px;
+    margin-left: 15px;
+}
+
+.closeReplyBtn{
+    width: 50%;
+    margin: 5px;
+}
+
+.popupEdit {
+    position: absolute;
+    background-color: white;
+    top: 20%;
+    left: 30%;
+    border-radius: 10px;
+    border: 6px solid #ffa366;
+    width: 400px;
+    height: 600px;
+    display:none;
 }

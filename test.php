@@ -1,84 +1,72 @@
 <?php
     session_start();
-    include_once 'databaseConn.php';
+
     $error = false;
     $titleErr = $priceErr = $addressErr = $cityErr = $countryErr = $guestErr =  $roomErr = $carparkErr = $bathErr = $imageErr = "";
     $title = $price = $address = $city =$country = $room = $guest = $bath = $carpark = "";
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
-        if(empty($_POST["title"])||$_POST["title"]==" "){
+        if(empty($_POST["title"]) || $_POST["title"]==" " || !isset($_POST["title"])){
             $titleErr = "* Title is required!";
             $error = true;
         }else{
             $title = $_POST["title"];
         }
-        if(empty($_POST["price"])){
+        if(empty($_POST["price"])||!isset($_POST["price"])){
             $priceErr = "* Price is required!";
             $error = true;
         }else{
             $price = $_POST["price"];
         }
-        if(empty($_POST["address"])||$_POST["address"]==" "){
+        if(empty($_POST["address"])||$_POST["address"]==" "||!isset($_POST["address"])){
             $addressErr = "* Address is required!";
             $error = true;
         }else{
             $address = $_POST["address"];
         }
-        if(empty($_POST["city"])||$_POST["city"]==" "){
+        if(empty($_POST["city"])||$_POST["city"]==" "||!isset($_POST["city"])){
             $cityErr = "* City is required!";
             $error = true;
         }else{
             $city = $_POST["city"];
         }
-        if(empty($_POST["country"])||$_POST["country"]==" "){
+        if(empty($_POST["country"])||$_POST["country"]==" "||!isset($_POST["country"])){
             $countryErr = "* Country is required!";
             $error = true;
         }else{
             $country = $_POST["country"];
         }
-        if(empty($_POST["GuestNo"])){
+        if(empty($_POST["GuestNo"])||!isset($_POST["GuestNo"])){
             $guestErr = "* Number of Guest Allowed is required!";
             $error = true;
         }else{
             $guest = $_POST["GuestNo"];
         }
-        if(empty($_POST["RoomNo"])){
+        if(empty($_POST["RoomNo"])||!isset($_POST["RoomNo"])){
             $roomErr = "* Number of Room is required!";
             $error = true;
         }else{
             $room = $_POST["RoomNo"];
         }
-        if(empty($_POST["BathroomNo"])){
+        if(empty($_POST["BathroomNo"])||!isset($_POST["BathroomNo"])){
             $bathErr = "* Number of Bathroom is required!";
             $error = true;
         }else{
             $bath = $_POST["BathroomNo"];
         }
-        if(empty($_POST["CarParkNo"])){
+        if(empty($_POST["CarParkNo"])||!isset($_POST["CarParkNo"])){
             $carparkErr = "* Number of Carpark is required!";
             $error = true;
         }else{
             $carpark = $_POST["CarParkNo"];
         }
-        if(empty($_FILES["image"]["name"])){
+        if(empty($_FILES["image"]["name"])||!isset($_FILES["image"]["name"])){
             $imageErr = "* image is required!";
             $error = true;
-        }else{
-            //manage the upload image
-            $fileName = basename($_FILES["image"]["name"]);
-            $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-            $allowTypes = array('jpg', 'png', 'jpeg');
-            if(in_array($fileType, $allowTypes)){
-                $image = $_FILES["image"]["tmp_name"];
-                $imgContent = file_get_contents($image);
-            }else{
-                $imageErr = "image file type need to be one of them: jpg, jpeg, png";
-                $error=true;
-            }
         }
     }
   
-    if(isset($_POST["title"], $_POST["price"], $_POST["address"], $_POST["city"], $_POST["GuestNo"], $_POST["RoomNo"], $_POST["BathroomNo"], $_POST["CarParkNo"], $_FILES["image"]["name"])&&$error==false){
+    if($error==false){
         $_SESSION["title"] = $title;
         $_SESSION["price"] = $price;
         $_SESSION["address"] = $address;
@@ -87,32 +75,40 @@
         $_SESSION["RoomNo"] = $room;
         $_SESSION["BathroomNo"] = $bath;
         $_SESSION["CarParkNo"] = $carpark;
-        if(!empty($_POST["smokeAllowed"])){
+        if($_POST["smokeAllowed"] == 1){
             $_SESSION["smokeAllowed"] = 1;
         }else{
             $_SESSION["smokeAllowed"] = 0;
         }
-        if(!empty($_POST["petAllowed"])){
+        if($_POST["petAllowed"] == 1){
             $_SESSION["petAllowed"] = 1;
         }else{
             $_SESSION["petAllowed"] = 0;
-        }
-        if(!empty($_POST["InternetConnected"])){
+        }if($_POST["InternetConnected"] == 1){
             $_SESSION["InternetConnected"] = 1;
         }else{
             $_SESSION["InternetConnected"] = 0;
         }
-        
-        $hostid = $_SESSION["loginUserid"];
-        $stmt = $connection->prepare("INSERT INTO Accommodations (Title, Address, City, Country, Price, Host_id, NumOfRoom, NumOfBath, NumOfCarPark, MaxGuestNum, SmokeAllowed, PetAllowed, InternetConnected, Image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssiiiiiiiiis", $title, $address, $city, $country, $price, $hostid, $room, $bath, $carpark, $guest, $_SESSION["smokeAllowed"], $_SESSION["petAllowed"], $_SESSION["InternetConnected"], $imgContent);
-        if($stmt->execute()){
-            //echo "Successful!";
+        //manage the upload image
+        $fileName = basename($_FILES["image"]["name"]);
+        $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
+        $allowTypes = array('jpg', 'png', 'jpeg');
+        if(in_array($fileType, $allowTypes)){
+            $image = $_FILES["image"]["tmp_name"];
+            $imgContent = addslashes(file_get_contents($image));
+            echo $imgContent;
         }else{
-            echo $stmt->error;
+            $imageErr = "image file type need to be one of them: jpg, jpeg, png";
         }
-        $stmt->close();
-        $connection->close();
+
+        // include_once 'databaseConn.php';
+
+        // $stmt = $connection->prepare("INSERT INTO Accommodations (Title, Address, City, Country, Price, NumOfRoom, NumOfBath, NumOfCarPark, MaxGuestNum, SmokeAllowed, PetAllowed, InternetConnected, Image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        // $stmt->bind_param("ssssiiiiiiiis", $title, $address, $city, $country, $price, $room, $bath, $carpark, $guest, $_POST[SmokeAllowed], $_POST[petAllowed], $_POST[InternetConnected], $imgContent);
+        // $stmt->execute();
+        // echo "Successful!";
+        // $stmt->close();
+        // $connection->close();
         header("Location: host.php");
         exit();
     }
@@ -130,6 +126,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/6c3fa9686c.js" crossorigin="anonymous"></script>
+        <style>
+            .error{
+                color: red;
+            }
+        </style>
     </head>
     <body>
         <!--this is the top bar of each page-->
@@ -192,11 +193,11 @@
                 <span class="error"><?php echo $imageErr;?></span>
                 <br>
                 <label class="formLabel">Smoked Allowed</label>
-                <input type="checkbox" id="smokeAllowed" name="smokeAllowed"><br>
+                <input type="checkbox" id="smokeAllowed" name="smokeAllowed" value = "1"><br>
                 <label class="formLabel">Pet Allowed</label>
-                <input type="checkbox" id="petAllowed" name="petAllowed"><br>
+                <input type="checkbox" id="petAllowed" name="petAllowed" value = "1"><br>
                 <label class="formLabel">Internet Provided</label>
-                <input type="checkbox" id="InternetConnected" name="InternetConnected"><br><br>
+                <input type="checkbox" id="InternetConnected" name="InternetConnected" value = "1"><br><br>
                 <input type="submit" class="btn btn-outline-info createBtn" value="Create">
             </form>
         </div>

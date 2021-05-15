@@ -17,11 +17,12 @@ CREATE TABLE Users (
     Country VARCHAR(255) NOT NULL,
     ABN INT,
     Rate FLOAT UNSIGNED,
-    Image LONGBLOB NOT NULL 
+    Avatar LONGBLOB NOT NULL 
 );
 
 CREATE TABLE Accommodations (
     Accom_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
     Address VARCHAR(255) NOT NULL,
     City VARCHAR(255) NOT NULL,
     Country VARCHAR(255) NOT NULL,
@@ -40,11 +41,16 @@ CREATE TABLE Accommodations (
 );
 
 CREATE TABLE Comments (
-    CommA_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    Comment_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Content TEXT,
-    Author_id INT UNSIGNED,
+    Author_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (Author_id) REFERENCES Users(User_id),
-    Rate TINYINT UNSIGNED
+    Rate INT UNSIGNED,
+    Accom_id INT UNSIGNED,
+    FOREIGN KEY (Accom_id) REFERENCES Accommodations(Accom_id),
+    Status VARCHAR(10) DEFAULT 'Unread',
+    Receiver_id INT UNSIGNED,
+    FOREIGN KEY (Receiver_id) REFERENCES Users(User_id)
 );
 
 CREATE TABLE Calendar (
@@ -57,10 +63,12 @@ CREATE TABLE Bookings (
     Booking_status VARCHAR(15) NOT NULL,
     Accom_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (Accom_id) REFERENCES Accommodations(Accom_id),
-    Date_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (Date_id) REFERENCES Calendar(Date_id),
+    StartDate DATE NOT NULL,
+    EndDate DATE NOT NULL,
     Tenant_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (Tenant_id) REFERENCES Users(User_id)
+    FOREIGN KEY (Tenant_id) REFERENCES Users(User_id),
+    TotalPrice INT UNSIGNED NOT NULL,
+    Reason TEXT
 );
 
 DROP PROCEDURE IF EXISTS FillCalendar;

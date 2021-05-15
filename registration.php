@@ -1,3 +1,117 @@
+<?php
+  session_start();
+
+  include_once "databaseConn.php";
+  $error=false;
+  $fnameErr=$lnameErr=$emailErr=$mobileErr=$passwordErr=$addressErr=$countryErr=$abnErr=$avatarErr="";
+  $fname=$lname=$email=$mobile=$userpassword=$address=$country=$abn="";
+  if($_SERVER["REQUEST_METHOD"]=="POST"){
+    if(empty($_POST["fname"])||$_POST["fname"]==" "){
+      $error=true;
+      $fnameErr="Please enter the first name.";
+    }else{
+      $fname = $_POST["fname"];
+    }
+    if(empty($_POST["lname"])||$_POST["lname"]==" "){
+      $error=true;
+      $lnameErr="Please enter the last name.";
+    }else{
+      $lname = $_POST["lname"];
+    }
+    if(empty($_POST["email"])||$_POST["email"]==" "){
+      $error=true;
+      $emailErr="Please enter the email.";
+    }else{
+      $sqlForCheck = "SELECT * FROM Users WHERE Email = '".$_POST["email"]."'";
+      $checkResult = $connection->query($sqlForCheck);
+      
+      if($checkResult->num_rows > 0){
+        $error=true;
+        $emailErr = "Email already been used!!";
+      }else{
+        $email = $_POST["email"];
+      }
+    }
+    if(empty($_POST["mobile"])){
+      $error=true;
+      $mobileErr="Please enter the mobile number.";
+    }else{
+      $mobile = $_POST["mobile"];
+    }
+    if(empty($_POST["password"])||empty($_POST["confirmation"])){
+      $passwordErr="* Please check password";
+      $error=true;
+    }else{
+      if($_POST["password"]!=$_POST["confirmation"]){
+        $passwordErr="* Password Don't Match";
+        $error=true;
+      }else{
+        $userpassword = $_POST["password"];
+      }
+    }
+    if(empty($_POST["address"])||$_POST["address"]==" "){
+      $error=true;
+      $addressErr="Please enter the address.";
+    }else{
+      $address = $_POST["address"];
+    }
+    if(empty($_POST["country"])||$_POST["country"]==" "){
+      $error=true;
+      $countryErr="Please enter the country.";
+    }else{
+      $country = $_POST["country"];
+    }
+    if($_POST["usertype"]=="1"){
+      if(empty($_POST["abn"])){
+        $error=true;
+        $abnErr="Please enter the ABN number.";
+      }else{
+        $abn=$_POST["abn"];
+      }
+    }else{
+      $abn="";
+    }
+    if(empty($_FILES["avatar"]["name"])){
+      $avatarErr = "* avatar is required!";
+      $error = true;
+    }else{  
+      //manage the upload image
+      $fileName = basename($_FILES["avatar"]["name"]);
+      $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+      $allowTypes = array('jpg', 'png', 'jpeg');
+      if(in_array($fileType, $allowTypes)){
+        $image = $_FILES["avatar"]["tmp_name"];
+        $imgContent = file_get_contents($image);
+      }else{
+        $imageErr = "image file type need to be one of them: jpg, jpeg, png";
+        $error=true;
+      }
+    }
+  }
+
+  if(isset($_POST["fname"], $_POST["lname"], $_POST["email"], $_POST["mobile"], $_POST["password"], $_POST["confirmation"], $_POST["address"], $_POST["country"], $_POST["abn"], $_FILES["avatar"]["name"])&&$error==false){
+    $_SESSION["fname"]=$fname;
+    $_SESSION["lname"]=$lname;
+    $_SESSION["email"]=$email;
+    $_SESSION["mobile"]=$mobile;
+    $_SESSION["password"]=$userpassword;
+    $_SESSION["address"]=$address;
+    $_SESSION["country"]=$country;
+    $_SESSION["abn"]=$abn;
+
+    $stmt = $connection->prepare("INSERT INTO Users (Fname, Lname, Email, Mobile, Password, Address, Country, ABN, Avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssisssis", $fname, $lname, $email, $mobile, $userpassword, $address, $country, $abn, $imgContent);
+        if($stmt->execute()){
+            //echo "Successful!";
+        }else{
+            echo $stmt->error;
+        }
+        $stmt->close();
+        $connection->close();
+        header("Location: home.php");
+        exit();
+  }
+?>
 <!DOCTYPE html>
 <html>
     <!-- Headings -->
@@ -10,12 +124,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/6c3fa9686c.js" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="script.js"></script>
     </head>
     <!-- Body -->
 
     <style>
       .mainDiv {
-        background-image: url("img/regi\ 2.jpeg");
+        background-image: url("img/regi2.jpeg");
         background-size: 100%;
         
         background-repeat: no-repeat;
@@ -28,13 +143,13 @@
             </div>
         </div> 
         <div class="mainDiv">
-          <form>
+          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
                  <br>
                  <br>
-               <h2><p align="center">CREATE ACCOUNT</p></h2>
+               <h2><p>CREATE ACCOUNT</p></h2>
                <br>
                <h4><p style="margin-left:10%">Are you registering as a client or host?</p></h4>
-               <select style="width: 76%;height:50Px;margin-left: 10%;border-radius: 5px;" id="AAA" onchange="gradeChange()">
+               <select name="usertype"style="width: 76%;height:50Px;margin-left: 10%;border-radius: 5px;" id="AAA" onchange="gradeChange()">
 				<option value="1" style="font-size: 16px;font-weight: 200;background-color: dimgrey;height: 50px;">Host</option>
 				<option value="2" style="font-size: 16px;font-weight: 200;background-color: dimgrey;height: 50px;">Client</option>
 			</select>  
@@ -44,11 +159,13 @@
             <div style="display: flex;width:100%;">
               <div style="width:50%;">
               <h4>First name</h4>
-              <input type="text" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your First name"id="FirstName"required>
+              <input type="text" name="fname" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your First name"id="FirstName"><br>
+              <span class="error"><?php echo $fnameErr;?></span>
             </div>
             <div style="width:50%;">
                 <h4>Last name</h4>
-                <input type="text" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your Last name"id="LastName"required>
+                <input type="text" name="lname" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your Last name"id="LastName"><br>
+                <span class="error"><?php echo $lnameErr;?></span>
               </div>
             </div>
         </div>
@@ -58,11 +175,13 @@
         <div style="display: flex;width:100%;">
           <div style="width:50%;">
           <h4>Email address</h4>
-          <input  type="email" style="width:90%;height: 50px;border-radius: 5px;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email address"id="EmailAddress"required>
+          <input  type="email" name="email" style="width:90%;height: 50px;border-radius: 5px;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email address"id="EmailAddress"><br>
+          <span class="error"><?php echo $emailErr;?></span>
         </div>
         <div style="width:50%;">
             <h4>Mobile</h4>
-            <input type="number" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your mobile number"id="MobileNumber"required>
+            <input type="number" name="mobile" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your mobile number" id="MobileNumber"><br>
+            <span class="error"><?php echo $mobileErr;?></span>
           </div>
         </div>
     </div>   
@@ -72,36 +191,46 @@
         <div style="display: flex;width:100%;">
           <div style="width:50%;">
           <h4>Password</h4>
-          <input type="password"style="width:90%;height: 50px;border-radius: 5px;" placeholder="Password"id="Password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*?[!@#$%^&*+`~'=?\|\]\[\(\)\->/]).{6,12}"required>
+          <input type="password" name="password" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Password" id="Password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*?[!@#$%^&*+`~'=?\|\]\[\(\)\->/]).{6,12}"><br>
+          <span class="error"><?php echo $passwordErr;?></span>
         </div>
         <div style="width:50%;">
             <h4>Confirm Password</h4>
-            <input type="password" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Re-type your password"id="RePassword"required>
+            <input type="password" name="confirmation" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Re-type your password"id="RePassword">
           </div>
         </div>
     </div>   
-    <h6><p style="margin-left:10%">Password should consist of number and letters.</p></h6>
+    <h6><p style="margin-left:10%">Password should consist of at least 1 uppercase 1 lowercase and 1 special character with 6-12 characters in length.</p></h6>
 
     <div style="width:80%; margin-left:10%;">
         <div style="display: flex;width:100%;">
           <div style="width:50%;">
           <h4>Address</h4>
-          <input type="text" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Address"id="Address"required>
+          <input type="text" name="address" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Address"id="Address"><br>
+          <span class="error"><?php echo $addressErr;?></span>
         </div>
         <div style="width:50%;">
             <h4>Country</h4>
-            <input type="text" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your city"id="City"required>
+            <input type="text" name="country" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your city"id="City"><br>
+            <span class="error"><?php echo $countryErr;?></span>
           </div>
         </div>
     </div>  
     <br> 
-    <div style="width:80%; margin-left:10%;"id="FFF">
+    <div style="width:80%; margin-left:10%;">
         <div style="display: flex;width:100%;">
-          <div style="width:50%;">
-          <h4>ABN</h4>
-          <input type="number" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your ABN number"id="ABN"required>
+          <div style="width:50%;" id="FFF">
+            <h4>ABN</h4>
+            <input type="number" name="abn" style="width:90%;height: 50px;border-radius: 5px;" placeholder="Enter your ABN number"id="ABN"><br>
+            <span class="error"><?php echo $abnErr;?></span>
           </div>
-        </div>   
+          <div style="width:50%;">
+            <h4>Upload Avatar</h4>
+            <input type="file" name="avatar" style="width:90%;height: 50px;border-radius: 5px;" id="avatar"><br>
+            <span class="error"><?php echo $avatarErr;?></span>
+          </div>
+        </div>
+        <a href="login.php">Already have account?</a> 
     </div>   
         <div style="width:76%; margin-top: 50px;margin-left: 10%;">
          <button style="width:20%; height:50px;border-radius: 10px;">Cancel</button>
@@ -124,60 +253,6 @@
                         FFF.style.display = 'none'
 					}
 		} 
-        // function submit1 (){
-        // 	  var AAA = document.getElementById("AAA")
-	      //     var ABN = document.getElementById("ABN");
-	      //     if(AAA.value == '1'){
-	      //     	if(ABN.value == null || ABN.value == ""){
-	      //     		alert("please enter your ABN")
-	      //     		return
-	      //     	}
-	      //     	checkoutAll();
-	      //     }else{
-	      //     	checkoutAll();
-	      //     }
-        // }
-        // function checkoutAll (){
-        //    var firstName = document.getElementById("FirstName");
-        //    var LastName = document.getElementById("LastName");
-        //    var Emailaddress = document.getElementById("EmailAddress");
-        //    var Mobilenumber = document.getElementById("MobileNumber");
-        //    var Password = document.getElementById("Password");
-        //    var RePassword = document.getElementById("RePassword");
-        //    var Address = document.getElementById("Address");
-        //    var City = document.getElementById("City");
-        //  if ( firstName.value == null || firstName.value == ""){
-        //    alert("please enter your First Name")
-        //    return
-        //  }else if ( LastName.value == null || LastName.value == ""){
-        //      alert("please enter your Last Name")
-        //    return
-        //  }else if ( Emailaddress.value == null || Emailaddress.value == ""){
-        //      alert("please enter your Email address")
-        //    return
-        //  }else if ( Mobilenumber.value == null || Mobilenumber.value == ""){
-        //      alert("please enter your Mobile number")
-        //    return
-        //  }else if ( Password.value == null || Password.value == ""){
-        //      alert("please enter your Password")
-        //    return
-        //  }else if ( RePassword.value == null || RePassword.value == ""){
-        //      alert("please enter your Password again")
-        //    return
-        //  }else if (Password.value != RePassword.value){
-        //   alert("Password difference")
-        //   return
-        //  }
-        //  else if ( Address.value == null || Address.value == ""){
-        //      alert("please enter your Address")
-        //    return
-        //  }else if ( City.value == null || City.value == ""){
-        //      alert("please enter your City")
-        //    return
-        //  }else{
-        //    alert("successfull submit") 
-        //  }
-        // }
 	</script>
 	<style>
 		.sss{
